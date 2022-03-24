@@ -5,6 +5,7 @@ import {
   AvatarAudioDefaults,
   TargetAudioDefaults
 } from "./components/audio-params";
+import { isAndroid } from "./utils/detect-android";
 import { isSafari } from "./utils/detect-safari";
 
 const defaultSettingsForSourceType = Object.freeze(
@@ -38,6 +39,10 @@ export function getCurrentAudioSettings(el) {
   const preferencesOverrides = APP.store.state.preferences.disableLeftRightPanning
     ? { audioType: AudioType.Stereo }
     : {};
+  // Android has PannerNode audio problem. We already reported it.
+  // Until it will be fixed, we force to disable panner audio
+  // as short-term workaround. See #5057
+  const androidOverrides = isAndroid() ? { audioType: AudioType.Stereo } : {};
   const safariOverrides = isSafari() ? { audioType: AudioType.Stereo } : {};
   const settings = Object.assign(
     {},
@@ -47,6 +52,7 @@ export function getCurrentAudioSettings(el) {
     audioDebugPanelOverrides,
     zoneSettings,
     preferencesOverrides,
+    androidOverrides,
     safariOverrides
   );
 
