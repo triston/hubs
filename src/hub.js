@@ -398,6 +398,7 @@ export async function getSceneUrlForHub(hub) {
   } else {
     sceneUrl = proxiedUrlFor(sceneUrl);
   }
+  return 'https://hubs-proxy.com/https://uploads-prod.reticu…io/files/002172c6-41f9-4c3e-adc5-f4dd3141b527.bin';
   return sceneUrl;
 }
 
